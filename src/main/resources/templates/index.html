@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Accueil - Spring Security</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<main>
+    <h1>Bienvenue sur l'application publique</h1>
+    <p class="sous-titre" th:if="${nomConnecte == null}">Cette page est accessible sans connexion.</p>
+    <p class="sous-titre" th:if="${nomConnecte != null}" th:text="|Connecté en tant que ${nomConnecte}|"></p>
+
+    <div class="carte liens">
+        <a th:href="@{/user/dashboard}">Espace Utilisateur</a>
+        <a th:href="@{/admin/dashboard}">Espace Administrateur</a>
+        <!-- th:replace passe avant th:if : la condition doit donc être portée par un bloc parent -->
+        <th:block th:if="${nomConnecte != null}">
+            <form th:replace="~{fragments/communs :: deconnexion}"></form>
+        </th:block>
+    </div>
+</main>
+</body>
+</html>

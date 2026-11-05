@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Espace Administrateur</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<main>
+    <h1>Espace Administrateur</h1>
+    <p class="sous-titre" th:text="|Zone réservée au rôle ADMIN. Connecté en tant que ${nomConnecte}.|"></p>
+
+    <div class="carte liens">
+        <a th:href="@{/}">Accueil</a>
+        <a th:href="@{/user/dashboard}">Espace Utilisateur</a>
+        <form th:replace="~{fragments/communs :: deconnexion}"></form>
+    </div>
+
+    <section class="carte">
+        <h2>Publier une annonce</h2>
+        <div class="message-erreur" th:if="${erreurFormulaire}" th:text="${erreurFormulaire}"></div>
+        <div class="message-succes" th:if="${succesFormulaire}" th:text="${succesFormulaire}"></div>
+        <form th:action="@{/admin/annonces}" method="post">
+            <label for="titre">Titre</label>
+            <input type="text" id="titre" name="titre" maxlength="100">
+            <label for="contenu">Contenu</label>
+            <textarea id="contenu" name="contenu" rows="3" maxlength="1000"></textarea>
+            <button type="submit">Publier</button>
+        </form>
+    </section>
+
+    <section class="carte">
+        <h2>Annonces</h2>
+        <div th:replace="~{fragments/communs :: annonces(${annonces}, true)}"></div>
+    </section>
+
+    <section class="carte">
+        <h2>Dernières tentatives de connexion</h2>
+        <div class="defilement">
+            <table>
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Identifiant saisi</th>
+                    <th>Résultat</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="entree : ${journal}">
+                    <td th:text="${#temporals.format(entree.dateTentative, 'dd/MM/yyyy HH:mm:ss')}"></td>
+                    <td th:text="${entree.identifiantSaisi}"></td>
+                    <td th:text="${entree.reussie} ? 'Réussie' : 'Échouée'"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+</body>
+</html>

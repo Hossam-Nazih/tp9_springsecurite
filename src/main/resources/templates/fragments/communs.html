@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<body>
+
+<!-- Déconnexion en POST : th:action ajoute le jeton CSRF exigé par Spring Security -->
+<form th:fragment="deconnexion" th:action="@{/logout}" method="post">
+    <button type="submit" class="secondaire">Se déconnecter</button>
+</form>
+
+<!-- Liste des annonces, partagée par les deux espaces -->
+<div th:fragment="annonces(liste, peutSupprimer)">
+    <p class="vide" th:if="${#lists.isEmpty(liste)}">Aucune annonce pour le moment.</p>
+    <div class="annonce" th:each="annonce : ${liste}">
+        <h3 th:text="${annonce.titre}">Titre</h3>
+        <p th:text="${annonce.contenu}">Contenu</p>
+        <div class="meta"
+             th:text="|Par ${annonce.auteur}, le ${#temporals.format(annonce.datePublication, 'dd/MM/yyyy à HH:mm')}|">
+            Auteur et date
+        </div>
+        <form th:if="${peutSupprimer}" th:action="@{/admin/annonces/{id}/supprimer(id=${annonce.idAnnonce})}"
+              method="post" style="margin-top: 8px">
+            <button type="submit" class="danger">Supprimer</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Connexion - Application Sécurisée</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<main>
+    <div class="login-container">
+        <h1>Veuillez vous identifier</h1>
+        <p class="sous-titre"><a th:href="@{/}">Retour à l'accueil</a></p>
+
+        <!-- Spring Security ajoute ?error ou ?logout à l'URL après sa redirection -->
+        <div class="message-erreur" th:if="${param.error}">Identifiant ou mot de passe invalide.</div>
+        <div class="message-succes" th:if="${param.logout}">Vous avez été déconnecté avec succès.</div>
+
+        <!-- th:action insère le jeton CSRF dans un champ caché -->
+        <form th:action="@{/login}" method="post">
+            <label for="identifiant">Nom d'utilisateur :</label>
+            <input type="text" id="identifiant" name="identifiant" autocomplete="username" required autofocus>
+
+            <label for="motDePasse">Mot de passe :</label>
+            <input type="password" id="motDePasse" name="motDePasse" autocomplete="current-password" required>
+
+            <button type="submit">Se connecter</button>
+        </form>
+    </div>
+</main>
+</body>
+</html>

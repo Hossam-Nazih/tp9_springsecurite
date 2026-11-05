@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Espace Utilisateur</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+<main>
+    <h1>Espace Utilisateur</h1>
+    <p class="sous-titre" th:text="|Zone réservée au rôle USER. Connecté en tant que ${nomConnecte}.|"></p>
+
+    <div class="carte liens">
+        <a th:href="@{/}">Accueil</a>
+        <a th:href="@{/admin/dashboard}">Espace Administrateur</a>
+        <form th:replace="~{fragments/communs :: deconnexion}"></form>
+    </div>
+
+    <section class="carte">
+        <h2>Annonces</h2>
+        <div th:replace="~{fragments/communs :: annonces(${annonces}, false)}"></div>
+    </section>
+</main>
+</body>
+</html>
